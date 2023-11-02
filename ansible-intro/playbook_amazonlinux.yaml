@@ -1,6 +1,6 @@
 ---
 - name: Intro to Ansible Playbooks
-  hosts: debian, amazon_linux
+  hosts: amazon_linux
 
   tasks:
   - name: Add the user 'foo'
@@ -38,19 +38,11 @@
       path: /var/www/html    # Ersetze durch den tatsächlichen Pfad zum Web Root-Ordner
       state: directory
 
-- name: Copy index_debian.html to Debian
-  hosts: debian
-  tasks:
-  - name: Copy index_debian.html to Web Root on Debian
-    ansible.builtin.copy:
-      src: /home/debian/ansible-intro/index_debian.html
-      dest: /var/www/html/index.html
-    become: yes  
 
-- name: Copy index_amazonlinux.html to Debian
-  hosts: debian
+- name: Copy index_amazonlinux.html to Amazon Linux
+  hosts: amazon_linux
   tasks:
-  - name: Copy index_amazonlinux.html to Web Root on Debian
+  - name: Copy index_amazonlinux.html to Web Root on Amazon Linux
     ansible.builtin.copy:
       src: /home/debian/ansible-intro/index_amazonlinux.html
       dest: /var/www/html/index.html
