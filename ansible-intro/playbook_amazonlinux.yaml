@@ -1,56 +1,66 @@
----
 - name: Intro to Ansible Playbooks
   hosts: amazon_linux
-
   tasks:
-  - name: Add the user 'foo'
-    ansible.builtin.user:
-      name: foo
-    become: yes
-    become_method: sudo
+    - name: Add the user 'foo'
+      ansible.builtin.user:
+        name: foo
+        state: present
+      become: yes
 
-  - name: upgrade all packages
-    dnf:
-      name: '*'
-      state: latest
-    become: yes
+    - name: upgrade all packages
+      dnf:
+        name: '*'
+        state: latest
+      become: yes
 
-  - name: install the latest version of nano
-    dnf:
-      name: nano
-      state: latest
-    become: yes
+    - name: install the latest version of nano
+      dnf:
+        name: nano
+        state: latest
+      become: yes
 
-  - name: install the latest version of vim
-    dnf:
-      name: vim
-      state: latest
-    become: yes
+    - name: install the latest version of vim
+      dnf:
+        name: vim
+        state: latest
+      become: yes
 
-  - name: install the latest version of Apache
-    dnf:
-      name: httpd
-      state: latest
-    become: yes
+    - name: install the latest version of Apache
+      dnf:
+        name: httpd
+        state: latest
+      become: yes
 
-  - name: Create Web Root directory
-    file:
-      path: /var/www/html    # Ersetze durch den tatsächlichen Pfad zum Web Root-Ordner
-      state: directory
-
+    - name: Create Web Root directory
+      file:
+        path: /var/www/html
+        state: directory
+      become: yes
 
 - name: Copy index_amazonlinux.html to Amazon Linux
   hosts: amazon_linux
   tasks:
-  - name: Copy index_amazonlinux.html to Web Root on Amazon Linux
-    ansible.builtin.copy:
-      src: /home/debian/ansible-intro/index_amazonlinux.html
-      dest: /var/www/html/index.html
-    become: yes 
+    - name: Copy index_amazonlinux.html to Web Root on Amazon Linux
+      ansible.builtin.copy:
+        src: /home/debian/ansible-intro/index_amazonlinux.html
+        dest: /var/www/html/index.html
+      become: yes
+      notify: report_file_creation_amazonlinux
 
-  - name: Start Apache service
-    ansible.builtin.service:
-      name: httpd
-      state: started
-      enabled: yes
-    become: yes
+- name: Start Apache service (Amazon Linux)
+  hosts: amazon_linux
+  tasks:
+    - name: Start Apache service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+      become: yes
+
+
+- name: Report File Creation Handler
+  hosts: amazon_linux
+  handlers:
+  - name: report_file_creation_amazonlinux
+    debug:
+      msg: "Erfolgreich auf Amazon Linux abgelegt."

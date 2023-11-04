@@ -1,5 +1,5 @@
 [debian]
-host_debian ansible_host=18.153.66.84 ansible_user=admin ansible_port=22 ansible_ssh_private_key_file=/home/debian/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3
+host_debian ansible_host=52.28.50.103 ansible_user=admin ansible_port=22 ansible_ssh_private_key_file=/home/debian/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3
 
 [amazon_linux]
-host_amazon ansible_host=3.126.251.200 ansible_user=ec2-user ansible_port=22 ansible_ssh_private_key_file=/home/debian/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3
+host_amazon ansible_host=52.28.156.78 ansible_user=ec2-user ansible_port=22 ansible_ssh_private_key_file=/home/debian/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3

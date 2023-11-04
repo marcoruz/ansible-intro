@@ -1,7 +1,5 @@
----
 - name: Intro to Ansible Playbooks
   hosts: debian
-  
 
   tasks:
     - name: Add the user 'foo'
@@ -27,6 +25,11 @@
         name: vim
         state: latest
       become: yes  
+
+  handlers:
+    - name: report_file_creation
+      debug:
+        msg: "Die Datei wurde erfolgreich aud Debian erstellt."
 
 - name: install Nginx on Debian
   hosts: debian
@@ -54,11 +57,17 @@
       ansible.builtin.copy:
         src: /home/debian/ansible-intro/index_debian.html
         dest: /var/www/html/index.html
-        
+      notify: report_file_creation  # Hier verknüpfen Sie die Aufgabe mit dem Handler
 
     - name: Start Nginx service on Debian
       ansible.builtin.service:
         name: nginx
         state: started
         enabled: yes
-        
+
+- name: Report File Creation Handler
+  hosts: debian
+  handlers:
+  - name: report_file_creation_debian
+    debug:
+      msg: "Erfolgreich auf Debian abgelegt."
